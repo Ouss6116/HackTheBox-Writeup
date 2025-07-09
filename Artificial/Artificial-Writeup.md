@@ -19,7 +19,7 @@ we can use [Tensorflow-RCE](https://github.com/Splinter0/tensorflow-rce) to gene
 
 we get in as app, small check we found another user: gael
 
-we use find command to find something interesting : 'find / -type f -name "*.db" 2>/dev/null'
+we use find command to find something interesting : `find / -type f -name "*.db" 2>/dev/null`
 
 we find a sqlite db: 1|gael|gael@artificial.htb|c99175974b6e192936d97224638a34f8
 
