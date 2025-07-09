@@ -1,5 +1,5 @@
 # Artificial (Easy) : 10.10.11.74
-![Icon](Images/Screenshot 2025-07-09 at 09-46-56 Hack The Box Hack The Box.png)
+[Icon](Images/Screenshot 2025-07-09 at 09-46-56 Hack The Box Hack The Box.png)
 ## USER.TXT
 ### Enum and first entry point:
 We start with enum using Nmap (ports) => P22/80 => we add artificial.htb in /etc/hosts
