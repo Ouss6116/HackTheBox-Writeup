@@ -84,6 +84,6 @@ referring to backrest documentation:
   4. use Run command :
      *  `snapshot`
      *  `dump idsnapshot /root/root.txt` to display **root.txt**
-     *  
+       
 ![Icon](Images/roottxt.png)
   
