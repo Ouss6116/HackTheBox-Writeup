@@ -1,10 +1,19 @@
 # Artificial (Easy) : 10.10.11.74
-![Icon](Images/artificialicon.png)
+![Icon](Images/head.png)
 ## USER.TXT
 ### Enum and first entry point:
 We start with enum using Nmap (ports) => P22/80 => we add artificial.htb in /etc/hosts
 
-then use Ffuf (Dir, Files and Sub) => /login is the most interesting, this will be our entry point
+`nmap -sC -sV -v 10.10.11.74`
+
+![Icon](Images/nmap.png)
+
+then use Ffuf (Dir, Files and Sub) => **/login** is the most interesting, this will be our entry point
+
+`ffuf -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt -u http://artificial.htb/FUZZ`
+
+![Icon](Images/ffufdir.png)
+
 
 ### exploiting the entry point:
 
