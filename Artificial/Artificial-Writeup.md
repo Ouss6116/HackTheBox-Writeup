@@ -19,9 +19,11 @@ then use Ffuf (Dir, Files and Sub) => **/login** is the most interesting, this w
 
 via /login we find the /dashboard page
 
+![Icon](Images/uploadpage.png)
+
 two main things : 
-  1/ requirement: tensorflow-cpu==2.13.1
-  2/ upload filter: .h5 
+  1. requirement.txt : tensorflow-cpu==2.13.1
+  2. upload filter: .h5 
   
 we can use [Tensorflow-RCE](https://github.com/Splinter0/tensorflow-rce) to generate reverse shell with exploit.py and nc from our local machine.
 
