@@ -1,5 +1,5 @@
 # Artificial (Easy) : 10.10.11.74
-![Icon](Artificial/Images/artificialicon.png)
+![Icon](Images/artificialicon.png)
 ## USER.TXT
 ### Enum and first entry point:
 We start with enum using Nmap (ports) => P22/80 => we add artificial.htb in /etc/hosts
