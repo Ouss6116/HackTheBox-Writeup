@@ -77,4 +77,13 @@ next step we need to decrypt the password as it hashed with Bcrypt using hashcat
 
 now we have creds backrest_root:!@#$%^ to connect to backrest
 
-   
+referring to backrest documentation:
+  1. creat repo
+  2. creat plan with path /root/root.txt
+  3. creat backup
+  4. use Run command :
+     *  `snapshot`
+     *  `dump idsnapshot /root/root.txt` to display **root.txt**
+     *  
+![Icon](Images/roottxt.png)
+  
