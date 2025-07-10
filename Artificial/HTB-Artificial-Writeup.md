@@ -37,6 +37,8 @@ we use find command to find something interesting : `find / -type f -name "*.db"
 
 ![Icon](Images/sqldb.png)
 
+### in the machine as gael:
+
 we find a sqlite db: 1|gael|gael@artificial.htb|c99175974b6e192936d97224638a34f8
 
 and getting the password via [CrackStation](https://crackstation.net) : c99175974b6e192936d97224638a34f8 => mattp005numbertwo
@@ -44,6 +46,8 @@ and getting the password via [CrackStation](https://crackstation.net) : c9917597
 with the creds gael:mattp005numbertwo we get the **user.txt**
 
 ## ROOT.TXT
+
+### privsec firsts steps
 
 Starting with the user gael for privescal, generally we go for:
   1. Sudo -l
@@ -54,6 +58,7 @@ in our case ss -tuln we found two intersting ports: 5000 and 9898,
 
 ![Icon](Images/sstuln.png)
 
+### portforwarding
 
 we get them via SSH port forwarding (you can use chisel too) : `ssh -L 7777:localhost:9898 gael@artificial.htb`
 
@@ -61,14 +66,15 @@ and as you can see the port 9898 => backrest home page
 
 ![Icon](Images/backrest.png)
 
+### backrest user search
+
 for the id to login in backrest, there a backrest backup file in /var
 
 we find configuration file config.json , in there root account for backrest
 
 ![Icon](Images/backrestrootpass.png)
 
-next step we need to decrypt the password as it hashed with Bcrypt using hashcat , but first let decode it from BASE64 and put the result in a file
-                                                                                                                                                                                                                                            
+next step we need to decrypt the password as it hashed with Bcrypt using hashcat , but first let decode it from BASE64 and put the result in a file                                                                                                                                                                                                                        
 `echo "JDJhJDEwJGNWR0l5OVZNWFFkMGdNNWdpbkNtamVpMmtaUi9BQ01Na1Nzc3BiUnV0WVA1OEVCWnovMFFP" | base64 -d`
 
 `hashcat -m 3200 crack /usr/share/wordlists/rockyou.txt --force `
@@ -76,6 +82,8 @@ next step we need to decrypt the password as it hashed with Bcrypt using hashcat
 ![Icon](Images/hashcatres.png)
 
 now we have creds backrest_root:!@#$%^ to connect to backrest
+
+### final step with backrest backup
 
 referring to backrest documentation:
   1. creat repo
