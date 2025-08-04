@@ -1,4 +1,5 @@
 # Editor (Easy): 10.10.11.80
+![Icon](Images/editoricon.png)
 A simple Linux machine that can be summarized in two points:
 1. xwiki 15.10.8 => [CVE-2025-24893](https://github.com/Artemir7/CVE-2025-24893-EXP) - Thanks to @Artemir7 => USER.TXT
 2. netdata 1.45.2 => [CVE-2024-32019](https://github.com/AzureADTrent/CVE-2024-32019-POC) - Thanks to @AzureADTrent => ROOT.TXT
