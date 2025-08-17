@@ -2,31 +2,44 @@
 
 ![Icon](Images/codetwoicon.png)
 
+---
+
 ## Quick Overview
 
-A very easy peasy quick machine, that can be pawnd in the two next steps:
-1. js2py 0.74 => [CVE-2024-28397](https://github.com/waleed-hassan569/CVE-2024-28397-command-execution-poc) - Thanks to @waleed-hassan569 => USER.TXT
-2. npbackup 3.0.1 => [npbackup3.0.1](https://github.com/AliElKhatteb/npbackup-cli-priv-escalation) - Thanks to @AliElKhatteb => ROOT.TXT
+A very easy and quick machine that can be pwned in two simple steps:
+
+1. **js2py 0.74** → [CVE-2024-28397](https://github.com/waleed-hassan569/CVE-2024-28397-command-execution-poc)  
+   *Thanks to @waleed-hassan569* → **USER.TXT**
+
+2. **npbackup 3.0.1** → [npbackup 3.0.1 PrivEsc](https://github.com/AliElKhatteb/npbackup-cli-priv-escalation)  
+   *Thanks to @AliElKhatteb* → **ROOT.TXT**
+
+---
 
 ## USER.TXT
-### Enumeration and the Entry Point:
 
-We start with **nmap** that will lead us to **port 8000**.
+### Enumeration and Entry Point
+
+We start with an **nmap** scan that reveals **port 8000**.
 
 ![Icon](Images/nmapscan.png)
 
-### Exploiting the RCE:
+This part consists of a few steps:
 
-there we will go on two steps :
-1.  Download the app that will help to discover **js2py==0.74** in **requiement file**, and will exploit it with RCE [CVE-2024-28397](https://github.com/waleed-hassan569/CVE-2024-28397-command-execution-poc)
-2.  in dir instance, there is a **users.db**, remember it will be important to check it later.
-3.  after register we will exploit js2py to get user info from user.db : `sqlite3 instance/users.db 'SELECT * FROM user;'`
+1. Download the app and inspect the `requirements.txt` file to discover it uses **js2py==0.74**.  
+   We then exploit the vulnerability [CVE-2024-28397](https://github.com/waleed-hassan569/CVE-2024-28397-command-execution-poc) to achieve remote code execution.
+
+2. In the `instance/` directory, there is a **users.db** file. This will be useful later.
+
+3. After registering a user, we exploit the js2py vulnerability to extract user information from the database: `sqlite3 instance/users.db 'SELECT * FROM user;'`
 
 ![Icon](Images/codeexploitRCE.png)
 
-### thank you marco:
+### Thank You, Marco
 
-after getting marco creds, simple [CrackSation](https://crackstation.net/) use to crack the passowrd, and get the **USER.TXT**
+After retrieving Marco's credentials, we use [CrackStation](https://crackstation.net/) to crack the password and obtain **USER.TXT**.
+
+---
 
 ## ROOT.TXT
 
