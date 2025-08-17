@@ -45,11 +45,11 @@ After retrieving Marco's credentials, we use [CrackStation](https://crackstation
 
 ### First discovery:
 
-lets start with `sudo -l` , we see the privelege for **npbackup 3.0.1**
+We run `sudo -l` and see that we have sudo access to **npbackup 3.0.1**.
 
 ![Icon](Images/sudol.png)
 
-a small research to find the [PRivEscalPOC](https://github.com/AliElKhatteb/npbackup-cli-priv-escalation)
+After a quick search, we find this [Privilege Escalation PoC.](https://github.com/AliElKhatteb/npbackup-cli-priv-escalation)
 
 ### PrivEscal with npbackup:
 
