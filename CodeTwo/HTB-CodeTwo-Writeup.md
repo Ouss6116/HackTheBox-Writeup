@@ -1,3 +1,5 @@
+---
+
 # CodeTwo (Easy): 10.10.11.80
 
 ![Icon](Images/codetwoicon.png)
@@ -62,3 +64,5 @@ sudo /usr/local/bin/npbackup-cli -c npbackup.conf --dump FILE --snapshot-id SNAP
 This allows us to read any file from the backup, including sensitive ones.
 
 ![Icon](Images/npbackupexploit.png)
+
+---
