@@ -43,17 +43,16 @@ This successfully revealed the password: **freakingrockstarontheroad**.
 
 ### Final Touch:
 
-Using the credentials **ike:freakingrockstarontheroad**, we logged in via SSH and captured the USER.TXT flag.
+Using the credentials **ike:freakingrockstarontheroad**, we logged in via SSH and captured the **USER.TXT flag**.
 
 ---
 
 ## ROOT.TXT
 
-for the root we will start with SUID search : `find / -type f -perm -u=s 2>/dev/null`
+For privilege escalation, we began by searching for SUID binaries: : `find / -type f -perm -u=s 2>/dev/null`
 
-find insteressting thing : /usr/local/bin/sudo → Sudo version 1.9.17
+An interesting finding was `/usr/local/bin/sudo`. Checking its version revealed **Sudo version 1.9.17**.
 
-with a small serach of this version, i found this CVE-2025-32463 and get this [scrip](thttps://github.com/kh4sh3i/CVE-2025-32463)
+A quick search for this version identified CVE-2025-32463. We used the exploit from [kh4sh3i's GitHub repository](thttps://github.com/kh4sh3i/CVE-2025-32463) to escalate our privileges to root and capture the **ROOT.TXT flag**.
 
-and we got the **ROOT.TXT**
 ---
