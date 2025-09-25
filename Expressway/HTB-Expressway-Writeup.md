@@ -36,7 +36,7 @@ Port 69 hosted a TFTP service. Following the guide for [69 - UDP TFTP](https://b
 
 This scan revealed a configuration file: **ciscortr.cfg**.
 
-We downloaded this file using the Metasploit module: `msf5 > use auxiliary/admin/tftp/tftp_transfer_util`
+We downloaded this file using the **Metasploit module**: `msf5 > use auxiliary/admin/tftp/tftp_transfer_util`
 
 The configuration file contained a wealth of information, including the username: **ike**.
 
