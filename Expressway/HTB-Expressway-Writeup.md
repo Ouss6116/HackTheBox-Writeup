@@ -2,8 +2,6 @@
 
 # Expressway (Easy): 10.10.11.87
 
-![Icon](Images/expressicon.png)
-
 ---
 
 ## Quick Overview
@@ -21,11 +19,7 @@ easy linux machine without a web interface, so we get in via:
 
 as usually we start with nmap, but we get only p22, and no helpful information.
 
-![Icon](Images/nmaptcpscan.png)
-
 so we try and UDP scan, and as you see we get some helpful information.
-
-![Icon](Images/nmaudpscan.png)
 
 so we will explore p69 and p500 with the help of [hacktricks](https://book.hacktricks.wiki/en/index.html)
 
