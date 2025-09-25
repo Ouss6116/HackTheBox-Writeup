@@ -53,6 +53,6 @@ For privilege escalation, we began by searching for **SUID binaries**: : `find /
 
 An interesting finding was `/usr/local/bin/sudo`. Checking its version revealed **Sudo version 1.9.17**.
 
-A quick search for this version identified **CVE-2025-32463**. We used the exploit from [kh4sh3i's GitHub repository](thttps://github.com/kh4sh3i/CVE-2025-32463) to escalate our privileges to root and capture the **ROOT.TXT flag**.
+A quick search for this version identified **CVE-2025-32463**. We used the exploit from  [kh4sh3i's GitHub repository](https://github.com/kh4sh3i/CVE-2025-32463) to escalate our privileges to root and capture the **ROOT.TXT flag**.
 
 ---
