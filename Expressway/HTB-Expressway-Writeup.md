@@ -6,47 +6,45 @@
 
 ## Quick Overview
 
-easy linux machine without a web interface, so we get in via:
+An easy Linux machine without a web interface. Initial access is gained via:
 
-1. **UDP Port 69:user and 4500:password** → user:password → **USER.TXT**
-2. **Sudo 1.9.17** → [Sudo 1.9.17 PrivEsc](https://github.com/kh4sh3i/CVE-2025-32463) → *Thanks to @kh4sh3i* → **ROOT.TXT**
+1. **UDP Port 69 & 500 Enumeration** → Credentials found → **USER.TXT**
+2. **Sudo 1.9.17 Privilege Escalation** → [CVE-2025-32463 Exploit ](https://github.com/kh4sh3i/CVE-2025-32463) → *Thanks to @kh4sh3i* → **ROOT.TXT**
 
 ---
 
 ## USER.TXT
 
-### NMAP enumation
+### NMAP Enumeration
 
-as usually we start with nmap, but we get only p22, and no helpful information.
+We started with a standard TCP nmap scan, which only revealed port 22 (SSH) and no immediately helpful information.
 
-so we try and UDP scan, and as you see we get some helpful information.
+A UDP scan revealed more promising services, so we focused our efforts on ports 69 and 500 with the help of [hacktricks](https://book.hacktricks.wiki/en/index.html)
 
-so we will explore p69 and p500 with the help of [hacktricks](https://book.hacktricks.wiki/en/index.html)
+### Port 69 and TFTP Exploration
 
-### Port 69 and TFTP explore:
+Port 69 hosted a TFTP service. Following the guide for [69 - UDP TFTP](https://book.hacktricks.wiki/en/network-services-pentesting/69-udp-tftp.html), we enumerated it using: `nmap -n -Pn -sU -p69 -sV --script tftp-enum 10.10.11.87` 
 
-the Port 69 host a TFTP service, we have a valuable help in [69 - UDP TFTP](https://book.hacktricks.wiki/en/network-services-pentesting/69-udp-tftp.html)
+This scan revealed a configuration file: **ciscortr.cfg**.
 
-so firt of all we will enumarte it with `nmap -n -Pn -sU -p69 -sV --script tftp-enum 10.10.11.87` and we get this file **ciscortr.cfg**
+We downloaded this file using the Metasploit module: `msf5 > use auxiliary/admin/tftp/tftp_transfer_util`
 
-and by using metasploit `msf5> auxiliary/admin/tftp/tftp_transfer_util` we can get that file.
+The configuration file contained a wealth of information, including the username: **ike**.
 
-there a lot of valuable info, and i took from there the **user: ike**
+### Port 500 and IKE Exploration
 
-### Port 500 and IKE explore:
+Next, we examined the IKE service on port 500, referencing the [500/udp - Pentesting IPsec/IKE VPN](https://book.hacktricks.wiki/en/network-services-pentesting/ipsec-ike-vpn-pentesting.html) guide.
 
-as we did before, we will get help from [500/udp - Pentesting IPsec/IKE VPN](https://book.hacktricks.wiki/en/network-services-pentesting/ipsec-ike-vpn-pentesting.html)
+We first checked if the server was using Aggressive Mode, which can expose a hash of the pre-shared key (PSK): : `ike-scan -A -M 10.10.11.87 -P crack`
 
-we will try to get the hash if its in aggresive mode with **ike-scan** : `ike-scan -A -M 10.10.11.87 -P crack`
+We then attempted to crack the captured hash using **psk-crack** and the **rockyou.txt** wordlist: : `psk-crack -d /usr/share/wordlists/rockyou.txt crack`
 
-then we will try to crack it **psk-crack** : `psk-crack -d /usr/share/wordlists/rockyou.txt crack`
+This successfully revealed the password: **freakingrockstarontheroad**.
 
-and we got a the **password: freakingrockstarontheroad**
+### Final Touch:
 
-### Final touch:
+Using the credentials **ike:freakingrockstarontheroad**, we logged in via SSH and captured the USER.TXT flag.
 
-and we the combo user:password, we logged in and got the **USER.TXT**
- 
 ---
 
 ## ROOT.TXT
