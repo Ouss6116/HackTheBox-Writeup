@@ -43,6 +43,25 @@ there a lot of valuable info, and i took from there the **user: ike**
 
 as we did before, we will get help from [500/udp - Pentesting IPsec/IKE VPN](https://book.hacktricks.wiki/en/network-services-pentesting/ipsec-ike-vpn-pentesting.html)
 
+we will try to get the hash if its in aggresive mode with **ike-scan** : `ike-scan -A -M 10.10.11.87 -P crack`
 
+then we will try to crack it **psk-crack** : `psk-crack -d /usr/share/wordlists/rockyou.txt crack`
 
+and we got a the **password: freakingrockstarontheroad**
 
+### Final touch:
+
+and we the combo user:password, we logged in and got the **USER.TXT**
+ 
+---
+
+## ROOT.TXT
+
+for the root we will start with SUID search : `find / -type f -perm -u=s 2>/dev/null`
+
+find insteressting thing : /usr/local/bin/sudo → Sudo version 1.9.17
+
+with a small serach of this version, i found this CVE-2025-32463 and get this [scrip](thttps://github.com/kh4sh3i/CVE-2025-32463)
+
+and we got the **ROOT.TXT**
+---
