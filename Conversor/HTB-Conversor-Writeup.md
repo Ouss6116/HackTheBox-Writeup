@@ -32,7 +32,7 @@ in the Source code we got some valuabla informations, the most imprtants are :
 2. you can run python scripts in the scripts directory, you can find this info in install.md
 3. the users database is in instance directory
 
-so first of all we will start with a reverse shell, by writing a python script, that will use curl to connect to our machine, that have aleardy a python http server prepared, to copy a reverse shell script, and lunche it to get our initial login.
+so first of all we will start with a reverse shell, by writing a python script with the help of xslt file, that will use curl to connect to our machine, that have aleardy a python http server prepared, to copy a reverse shell script, and lunche it to get our initial login.
 
 so upload this XSLT File:
 
