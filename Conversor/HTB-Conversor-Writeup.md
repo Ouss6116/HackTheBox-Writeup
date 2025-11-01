@@ -4,7 +4,6 @@
 
 ![Icon](Images/coversoricon.png)
 
-
 ---
 
 ## Quick Overview
@@ -31,6 +30,8 @@ in the Source code we got some valuabla informations, the most imprtants are :
 1. XSLT is exploitable
 2. you can run python scripts in the scripts directory, you can find this info in install.md
 3. the users database is in instance directory
+
+### First Step
 
 so first of all we will start with a reverse shell, by writing a python script with the help of xslt file, that will use curl to connect to our machine, that have aleardy a python http server prepared, to copy a reverse shell script, and lunche it to get our initial login.
 
@@ -64,6 +65,30 @@ and last thing, nc listener `nc -nlvp 9999`.
 and by that we get our initial access, as you can see:
 
 ![Icon](Images/xsltrevshell.png)
+
+### DB Exploit
+
+For the next step, we will copie the DB to our local machine so we can exploit it peacefully, so i launched a python http server in the victim machine to copy the DB:
+
+![Icon](Images/dbdownload.png)
+
+i open the DB with sqlite browser, and found the user fismathack with it hashed password
+
+![Icon](Images/sqlitebrowser.png)
+
+### Final Touch
+
+By cracking the hash via [CrackStation](https://crackstation.net), we can login with fismathack and via SSH and capture the USER.TXT flag.
+
+![Icon](Images/usertxt.png)
+
+---
+
+## ROOT.TXT
+
+
+
+
 
 
 
