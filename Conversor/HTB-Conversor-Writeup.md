@@ -86,6 +86,29 @@ By cracking the hash via [CrackStation](https://crackstation.net), we can login 
 
 ## ROOT.TXT
 
+### Discover
+
+In this part we will start with `sudo -l`, and discover that we have sudo right to needrestart 3.7.
+
+![Icon](Images/sudol.png)
+
+### Exploit
+
+With a small research we found that we can privilege escal with needrestart 3.7, than correspendant to CVE-2024-48990.
+
+And i have used the following Poc [CVE-2024-48990-Automatic-Exploit](https://github.com/Serner77/CVE-2024-48990-Automatic-Exploit)
+
+PS: if it doesn't work, reset the machine from HTB.
+
+![Icon](Images/privescal.png)
+
+an as you can see it connect you with root privilege, and we can capture the ROOT.TXT flag.
+
+![Icon](Images/roottxt.png)
+
+---
+
+
 
 
 
