@@ -1,6 +1,6 @@
 ---
 
-# Conversor (Medium): 10.10.X.X
+# Conversor (Medium): 10.129.X.X
 
 ![Icon](Images/browsedicon.png)
 
@@ -23,10 +23,11 @@ We start with a nmap enummeration that will help us to discover p22 and p80.
 
 We try to get p80 via the IP adresse or browsed.htb (by ading it in /etc/hosts)
 
-We will see an interessting entry point, by trying to upload of the samples (i choosed Fontify and i will used by all the writeup).
+We will see an interessting entry point Upload Extention, by trying to upload of the samples (i choosed Fontify and i will used by all the writeup).
 
 If we scan the displayed logs, we will find browsedinternals.htb, by adding it in /etc/hosts, we will find that host a gitea.
 .
+![Icon](Images/browsedicon.png)
 
 ### Lets go
 
@@ -50,3 +51,13 @@ fetch(TARGET + exploit, { mode: "no-cors" });
 ```
 
 we replace it in content.js and zip the sample and upload it, in the same we launche netcat in our machine
+
+![Icon](Images/browsedicon.png)
+
+and we are in with larry user, for a better persistance we can take the ssh key and reconnected with it 
+
+---
+
+## ROOT.TXT
+
+### Discovery
