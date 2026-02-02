@@ -26,8 +26,8 @@ We try to get p80 via the IP adresse or browsed.htb (by ading it in /etc/hosts)
 We will see an interessting entry point Upload Extention, by trying to upload of the samples (i choosed Fontify and i will used by all the writeup).
 
 If we scan the displayed logs, we will find browsedinternals.htb, by adding it in /etc/hosts, we will find that host a gitea.
-.
-![Icon](Images/browsedicon.png)
+
+![Icon](Images/browsedgitea.png)
 
 ### Lets go
 
@@ -52,7 +52,7 @@ fetch(TARGET + exploit, { mode: "no-cors" });
 
 we replace it in content.js and zip the sample and upload it, in the same we launche netcat in our machine
 
-![Icon](Images/browsedicon.png)
+![Icon](Images/revershellbrowsed.png)
 
 and we are in with larry user, for a better persistance we can take the ssh key and reconnected with it 
 
@@ -227,10 +227,9 @@ else:
 
 by lquching the script and following the script we can get the root:
 
-![Icon](Images/browsedicon.png)
+![Icon](Images/rootbrowsed.png)
 
-
-
+---
 
 
 
