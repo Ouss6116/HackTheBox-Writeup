@@ -1,6 +1,6 @@
 ---
 
-# Conversor (Medium): 10.129.X.X
+# Browsed (Medium): 10.129.X.X
 
 ![Icon](Images/iconbrowsed.png)
 
